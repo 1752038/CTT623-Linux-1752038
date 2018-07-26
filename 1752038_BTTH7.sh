@@ -16,12 +16,11 @@ makeAMakeFile() {
     echo -e "clean:\n\trm -f *.o exo\ndepend:\n\tmakedepend *.c"
 }
 
-makef=${*##*/}
 makefile() {
     if test -e $*; then
 	echo -n "Nhap danh sach cac file .c: "
 	read file
-	exec 3>|$makef
+	exec 3>|$*
 	makeAMakeFile $file >&3
 	exec 3>&-
     else
