@@ -43,6 +43,7 @@ add() {
     echo "Last Name: $ho ; First Name: $ten ; Phone: $sdt" >>danhba.txt
 }
 
+flag=false
 delete() {
     echo -n "Nhap ten muc can xoa: "
     read name
@@ -53,21 +54,31 @@ delete() {
 	(( mark++ ))
 	for word in $line; do
 	    if [[ $word == $name ]]; then
+		flag=true
        		break
 	    fi
 	done
+	if $flag; then
+	    break
+	fi
     done <danhba.txt
     i=0
     while read line; do
 	mark=$(( mark-1 ))
-	if (( mark>0 )); then
-	    (( i++ ))
-	    if (( i==1 )); then
+	if (( i==0 )); then
+	    if (( mark>0 )); then
 		echo $line >danhba.txt
+	    else
+		echo "" >danhba.txt
+	    fi
+	else
+	    if (( mark==0 )); then
+		continue
 	    else
 		echo $line >>danhba.txt
 	    fi
 	fi
+	(( i++ ))
     done <temp.txt
     rm temp.txt
     echo "Danh ba da duoc cap nhat!"
